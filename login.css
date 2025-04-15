@@ -1,0 +1,126 @@
+/* body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-image: url('assets/signbg.jpg'); 
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center;
+    height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;}*/
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 50px;
+        background-color: #f8f9fa;
+        background-image: url('assets/signbg.jpg'); 
+        background-repeat: no-repeat;
+        background-size: cover; 
+        background-position: center;
+        height: 76vh; 
+    }
+    
+    .container {
+        margin-top: 130px;
+        width: 320px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background: white;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 40px; /* Moves it to the left */
+    }
+    
+    
+    h2 {
+        margin-bottom: 15px;
+    }
+    
+    /* Styling input fields and button */
+    input, button {
+        width: 80%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    
+    button {
+        background:blue;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s ease-in-out;
+    }
+    
+    button:hover {
+        background: darkgreen;
+    }
+    
+    /* Error message styling */
+    .error {
+        color: red;
+        font-size: 14px;
+        text-align: left;
+        margin-top: 2px;
+        margin-left: 35px;
+        display: block;
+    }
+    
+    /* Terms & Conditions container */
+    .terms-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-left:5px;
+        gap: 8px;
+        margin: 10px 0;
+        width: 100%;
+    }
+    
+    /* Checkbox size */
+    .terms-container input[type="checkbox"] {
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+    
+    /* Adjust label for terms */
+    .terms-container label {
+        font-size: 14px;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    
+    /* Toggle link (e.g., Login link) */
+    #toggle-link {
+        color: blue;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 400px) {
+        .container {
+            width: 90%;
+            padding: 15px;
+        }
+        
+        input, button {
+            width: 100%;
+        }
+    
+        .terms-container {
+            padding-left: 10px;
+        }
+    
+        .error {
+            margin-left: 10px;
+        }
+    }
+    

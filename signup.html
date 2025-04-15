@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Signup</h2>
+
+        <div class="input-container">
+            <input type="text" id="username" placeholder="Username" required>
+            <span class="error" id="usernameError"></span>
+        </div>
+
+        <div class="input-container">
+            <input type="email" id="email" placeholder="Email" required>
+            <span class="error" id="emailError"></span>
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="mobilenumber" placeholder="Mobile Number" required>
+            <span class="error" id="mobileError"></span>
+        </div>
+
+        <div class="input-container">
+            <input type="password" id="password" placeholder="Password" required>
+            <span class="error" id="passwordError"></span>
+        </div>
+
+        <div class="input-container">
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+            <span class="error" id="confirmPasswordError"></span>
+        </div>
+
+        <div class="terms-container">
+            <input type="checkbox" id="terms">
+            <label for="terms">I agree to the Terms & Conditions</label>
+            <span class="error" id="termsError"></span>
+        </div>
+
+        <button onclick="signup()">Signup</button>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+
+    <script>
+        function signup() {
+            let isValid = true;
+
+            const username = document.getElementById("username").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const mobile = document.getElementById("mobilenumber").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const confirmPassword = document.getElementById("confirmPassword").value.trim();
+            const terms = document.getElementById("terms").checked;
+
+            document.getElementById("usernameError").innerText = "";
+            document.getElementById("emailError").innerText = "";
+            document.getElementById("mobileError").innerText = "";
+            document.getElementById("passwordError").innerText = "";
+            document.getElementById("confirmPasswordError").innerText = "";
+            document.getElementById("termsError").innerText = "";
+
+            // Username validation
+            if (username.length < 3) {
+                document.getElementById("usernameError").innerText = "Username must be at least 3 characters.";
+                isValid = false;
+            }
+
+            // Email validation
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById("emailError").innerText = "Enter a valid email address.";
+                isValid = false;
+            }
+
+            // Mobile number validation (10-digit numbers)
+            const mobilePattern = /^[0-9]{10}$/;
+            if (!mobilePattern.test(mobile)) {
+                document.getElementById("mobileError").innerText = "Enter a valid 10-digit mobile number.";
+                isValid = false;
+            }
+
+            // Password validation (Minimum 6 characters, at least one number and one special character)
+            const passwordPattern = /^(?=.*[0-9])(?=.*[\W]).{6,}$/;
+            if (!passwordPattern.test(password)) {
+                document.getElementById("passwordError").innerText = "Password must be at least 6 characters and include a number and special character.";
+                isValid = false;
+            }
+
+            // Confirm password validation
+            if (confirmPassword !== password) {
+                document.getElementById("confirmPasswordError").innerText = "Passwords do not match.";
+                isValid = false;
+            }
+
+            // Terms agreement validation
+            if (!terms) {
+                document.getElementById("termsError").innerText = "You must agree to the Terms and Conditions.";
+                isValid = false;
+            }
+
+            // If all validations pass
+            if (isValid) {
+                // Save user data to localStorage
+                let users = JSON.parse(localStorage.getItem('users')) || [];
+                users.push({ username, email, mobile, password }); // Add new user
+                localStorage.setItem('users', JSON.stringify(users)); // Save to localStorage
+
+                alert("Signup successful! Redirecting to login page...");
+                window.location.href = "login.html"; // Redirect to login page
+            }
+        }
+    </script>
+</body>
+</html>

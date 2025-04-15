@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">ChatApp</div>
+        <div class="nav-icons">
+            <span onclick="toggleSection('profile')">Profile</span>
+            <span onclick="toggleSection('settings')">Settings</span>
+            <span onclick="logout()">Logout</span>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h3>Contacts</h3>
+            <!-- Search Input Field -->
+            <input type="text" id="searchInput" placeholder="Search Contacts" oninput="searchContacts()">
+            <ul id="contactsList"></ul> <!-- Contacts will be added dynamically here -->
+        </div>
+
+        <!-- Chat Section -->
+        <div class="chat-section" id="chat-section" style="display: none;">
+            <div class="chat-header">
+                <h3 id="chat-title">Chat</h3>
+                <button onclick="closeChat()">Close</button>
+            </div>
+            <div class="chat-box" id="chat-box">
+                <p>Select a contact to start a chat.</p>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="message" placeholder="Type a message">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="profile-section" id="profile">
+            <h2>Profile</h2>
+            <p>Name: John Doe</p>
+            <p>Email: johndoe@example.com</p>
+            <a href="profile.html">View Full Profile</a>
+        </div>
+
+        <!-- Settings Section -->
+        <div class="settings-section" id="settings">
+            <h2>Settings</h2>
+            <label>
+                <input type="checkbox" onclick="toggleTheme()"> Dark Mode
+            </label>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+
+    <script>
+        // Function to toggle visibility of different sections (Profile, Settings, Chat)
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+
+            // Hide all sections first
+            document.querySelectorAll('.profile-section, .settings-section, .chat-section').forEach(sec => {
+                if (sec.id !== sectionId) {
+                    sec.style.display = 'none';
+                }
+            });
+
+            // Toggle the selected section
+            section.style.display = (section.style.display === 'none' || section.style.display === '') ? 'block' : 'none';
+        }
+
+        // Function to open a chat with a selected user
+        function openChat(user) {
+            let chatSection = document.getElementById('chat-section');
+            let chatTitle = document.getElementById('chat-title');
+            let chatBox = document.getElementById('chat-box');
+
+            chatTitle.innerText = user;
+            chatBox.innerHTML = `<p>Chat with ${user}</p>`; // Clear previous messages when opening a new chat
+            chatSection.style.display = 'block';
+
+            // Hide other sections
+            document.getElementById('profile').style.display = 'none';
+            document.getElementById('settings').style.display = 'none';
+        }
+
+        // Function to close the chat section
+        function closeChat() {
+            document.getElementById('chat-section').style.display = 'none';
+        }
+
+        // Function to send a message
+        function sendMessage() {
+            let messageInput = document.getElementById('message');
+            let message = messageInput.value.trim();
+
+            if (message !== "") {
+                let chatBox = document.getElementById('chat-box');
+                let newMessage = document.createElement('p');
+                newMessage.textContent = "You: " + message;
+                chatBox.appendChild(newMessage);
+                messageInput.value = "";
+            }
+        }
+
+        // Function to logout
+        function logout() {
+            alert("Logging out...");
+            window.location.href = "index.html";
+        }
+
+        // Function to toggle between Light and Dark mode
+        function toggleTheme() {
+            const body = document.body;
+            const isDarkMode = body.classList.toggle('dark-mode');
+
+            // Save preference in localStorage
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        }
+
+        // Function to load the saved theme preference
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        }
+
+        // Call this function on page load to apply saved theme
+        document.addEventListener('DOMContentLoaded', loadTheme);
+
+        // Load contacts from localStorage and display them in the sidebar
+        function loadContacts() {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const contactsList = document.getElementById('contactsList');
+
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = user.username;
+                li.onclick = function() {
+                    openChat(user.username);
+                };
+                contactsList.appendChild(li);
+            });
+        }
+
+        // Call loadContacts on page load
+        window.onload = loadContacts;
+
+        // Search Contacts Function
+        function searchContacts() {
+            let input = document.getElementById('searchInput');
+            let filter = input.value.toLowerCase();
+            let contactsList = document.getElementById('contactsList');
+            let contacts = contactsList.getElementsByTagName('li');
+
+            for (let i = 0; i < contacts.length; i++) {
+                let contactName = contacts[i].textContent || contacts[i].innerText;
+                if (contactName.toLowerCase().indexOf(filter) > -1) {
+                    contacts[i].style.display = '';
+                } else {
+                    contacts[i].style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
